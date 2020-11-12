@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+        <script>
+        function goBack() {
+          window.history.back();
+        }
+    </script>
+  <style>
+
+            #viz {
+                  width: 100%;
+                  height: 100%;
+                  wigth: 1000px;
+                  height: 550px;
+<!--                  padding: 0 10px 0 0;-->
+<!--                  float: left;-->
+                  position:relative;
+<!--                  top:70px;-->
+<!--                  right:70px;-->
+<!--                  bottom:70px;-->
+<!--                border: 1px solid lightgray;-->
+
+            }
+  </style>
+  <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
+          <script type="text/javascript">
+        var viz;
+        var cypher = {{query_dict.test|tojson}};
+        function draw() {
+            var config = {
+                container_id: "viz",
+                server_url: "bolt://localhost:7687",
+                server_user: "neo4j",
+                server_password: "1Ucuofficial!",
+                labels: {
+                    "Author": {
+                        "caption": "name",
+                        "size": "local_kol",
+                        "community": "community",
+                        "title_properties": [
+                            "name",
+                            "institution",
+                            "laboratory",
+                            "country",
+                            "keywords",
+                            "local_kol"
+                        ]
+                    }
+                },
+                relationships: {
+                    "Linked": {
+                        "thickness": "weight",
+                        "caption": false
+                    }
+                },
+                initial_cypher: cypher
+            };
+
+            viz = new NeoVis.default(config);
+            viz.render();
+        }
+    </script>
+  <title>Influencers by Avenga</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href={{url_for('static', filename="vendor/bootstrap/css/bootstrap.min.css") }} rel="stylesheet">
+
+
+  <!-- Custom styles for this template -->
+  <link href={{url_for('static', filename="css/shop-item.css") }} rel="stylesheet">
+
+</head>
+
+<body onload="draw()">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Influencers in Coronavirus research</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+           <a class="nav-link" href={{url_for('welcome')}}>Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+<!--          <li class="nav-item">-->
+<!--            <a class="nav-link" href="#">About</a>-->
+<!--          </li>-->
+<!--          <li class="nav-item">-->
+<!--            <a class="nav-link" href="#">Services</a>-->
+<!--          </li>-->
+<!--          <li class="nav-item">-->
+<!--            <a class="nav-link" href="#">Contact</a>-->
+<!--          </li>-->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-lg-3">
+        <h3 class="my-4">  <button onclick="goBack()">🔙</button> </h3>
+        <h3 class="my-4"> by Institution: </h3>
+        <div class="list-group">
+          {% for a in institution %}
+          <a href={{url_for('filter_institution2', var=a )}} class="list-group-item ">{{ a }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      <!-- /.col-lg-3 -->
+
+      <div class="col-lg-9">
+
+        <div class="card mt-4">
+          <div class="card-body">
+            <h3 class="card-title">{{country}}</h3>
+            <h4>Most influential researchers:</h4>
+            <p class="card-text">
+              <ul>
+              {% for a in authors %}
+            <li>{{ a }}</li>
+              {% endfor %}
+          </ul>
+            </p>
+            <span class="text-warning"></span>
+          </div>
+        </div>
+        <!-- /.card -->
+
+        <div class="card card-outline-secondary my-4">
+          <div id="viz"></div>
+        </div>
+<!--        &lt;!&ndash; /.card &ndash;&gt;-->
+
+      </div>
+      <!-- /.col-lg-9 -->
+
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Avenga</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src={{url_for('static', filename="vendor/jquery/jquery.min.js") }} ></script>
+  <script src={{url_for('static', filename="vendor/bootstrap/js/bootstrap.bundle.min.js")}} ></script>
+
+</body>
+
+</html>

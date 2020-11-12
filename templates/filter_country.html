@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Influensers in Corovavirus research</title>
+        <style type="text/css">
+            html, body {
+                font: 16pt arial;
+            }
+
+            #viz {
+                  position:absolute;
+                  top:5px;
+                  right:5px;
+                  bottom:5px;
+                  left:200px;
+                border: 1px solid lightgray;
+                font: 22pt arial;
+            }
+        </style>
+         <script type="text/javascript">
+        var viz;
+        var cypher = {{query_dict.test|tojson}};
+        function draw() {
+            var config = {
+                container_id: "viz",
+                server_url: "bolt://localhost:7687",
+                server_user: "neo4j",
+                server_password: "1Ucuofficial!",
+                labels: {
+                    "Author": {
+                        "caption": "name",
+                        "size": "pagerank",
+                        "community": "community",
+                        "title_properties": [
+                            "name",
+                            "institution",
+                            "laboratory",
+                            "country"
+                        ]
+                    }
+                },
+                relationships: {
+                    "Linked": {
+                        "thickness": "weight",
+                        "caption": false
+                    }
+                },
+                initial_cypher: cypher
+            };
+
+            viz = new NeoVis.default(config);
+            viz.render();
+        }
+    </script>
+        <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
+    </head>
+ <button onclick="goBack()">Go Back</button>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+    <body onload="draw()">
+        <div id="viz"></div>
+        <div><h1>Filter by:</h1></div>
+
+        <div>
+     <form action="/filter_institution" method="POST">
+        <input type="radio" id="1" name="institution" value='{{institutions[0]}}'>
+        <label for="1">{{institutions[0]}}</label><br>
+        <input type="radio" id="2" name="institution" value='{{institutions[1]}}'>
+        <label for="2">{{institutions[1]}}</label><br>
+         <input type="radio" id="3" name="institution" value='{{institutions[2]}}'>
+        <label for="3">{{institutions[2]}}</label><br>
+        <input type="radio" id="4" name="institution" value='{{institutions[3]}}'>
+        <label for="4">{{institutions[3]}}</label><br>
+         <input type="radio" id="5" name="institution" value='{{institutions[4]}}'>
+        <label for="5">{{institutions[4]}}</label><br>
+         <input type="submit" value="Submit">
+     </form>
+        </div>
+
+    </body>
+</html>

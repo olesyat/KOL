@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Influensers in Corovavirus research</title>
+        <style type="text/css">
+            html, body {
+                font: 16pt arial;
+            }
+
+            #viz {
+                  width: 80%;
+                  padding: 0 10px 0 0;
+                  float: left;
+                  position:absolute;
+                  top:70px;
+                  right:70px;
+                  bottom:70px;
+                border: 1px solid lightgray;
+
+            }
+
+            .container{
+                  top:70px
+                  border: 1px solid lightgray;
+                  display: block;
+                  position: relative;
+                  margin: 40px auto;
+                  height: auto;
+                  width: 500px;
+                  padding: 20px;
+                  float: left
+                }
+                h2 {
+                    color: #AAAAAA;
+                }
+
+        </style>
+        <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
+    </head>
+    <script type="text/javascript">
+
+        var viz;
+
+        function draw() {
+            var config = {
+                container_id: "viz",
+                server_url: "bolt://localhost:7687",
+                server_user: "neo4j",
+                server_password: "1Ucuofficial!",
+
+                relationships: {
+                    "DISCOVERS": {
+                        "caption": true
+                    }
+                },
+                initial_cypher: "MATCH (n:Avenga)-[r:DISCOVERS]->(m:Influencers_in_Coronavirus_Research) RETURN *"
+            };
+
+            viz = new NeoVis.default(config);
+            viz.render();
+        }
+    </script>
+    <body onload="draw()">
+        <div id="viz"></div>
+        <div class="container"><h2>Filter by:</h2>
+
+     <form action="/filter_country" method="POST">
+        <input type="radio" id="USA" name="country" value="USA">
+        <label for="USA">USA</label><br>
+         <input type="radio" id="China" name="country" value="China">
+        <label for="China">China</label><br>
+        <input type="radio" id="Italy" name="country" value="Italy">
+        <label for="Italy">Italy</label><br>
+
+         <input type="radio" id="UK" name="country" value="UK">
+        <label for="UK">UK</label><br>
+         <input type="radio" id="France" name="country" value="France">
+        <label for="France">France</label><br>
+        <input type="radio" id="Germany" name="country" value="Germany">
+        <label for="Germany">Germany</label><br>
+
+
+         <input type="radio" id="Spain" name="country" value="Spain">
+        <label for="Spain">Spain</label><br>
+         <input type="radio" id="Canada" name="country" value="Canada">
+        <label for="Canada">Canada</label><br>
+        <input type="radio" id="Japan" name="country" value="Japan">
+        <label for="Japan">Japan</label><br>
+
+
+         <input type="radio" id="India" name="country" value="India">
+        <label for="India">India</label><br>
+         <input type="radio" id="Australia" name="country" value="Australia">
+        <label for="Australia">Australia</label><br>
+        <input type="radio" id="Brazil" name="country" value="JaBrazilpan">
+        <label for="Brazil">Brazil</label><br>
+
+         <input type="radio" id="Taiwan" name="country" value="Taiwan">
+        <label for="Taiwan">Taiwan</label><br>
+         <input type="radio" id="Iran" name="country" value="Iran">
+        <label for="Iran">Iran</label><br>
+
+         <input type="submit" value="Submit">
+     </form>
+        </div>
+    </body>
+</html>
